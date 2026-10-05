@@ -21,16 +21,38 @@ This custom material and simulation framework is designed to produce a 3D carrie
 
 ## Framework (Basics)
 
-At every timestep n, for every mesh cell, Lumerical solves the equation:\
+At every timestep n, for every mesh cell, Lumerical solves the equation:
+
 $$U^{n}E^{n}+\frac{P^{n}}{e_{0}} = V^{n}$$
+
 where E is the electric field, U and V are values provided by Lumerical, and P is the polarization that this custom model adds. Every physical model is wrapped into P.
 
 ## Full Derivation
 
 This section will go through the equations governing each physical model, how they combine into an expression for P, how the equation for electric field is time discretized, and how Newton's method is used to analytically determine a final solution.
 
+### Time Discretization
+
+In order to analytically solve for $$E^{n+1}$$, it is necessary to transition from the frequency domain into the time domain by replacing $$-iw$$ with temporal derivatives ($$dt$$). From there, the derivatives are time discretized to align with the FDTD algorithm, which dictates that the displacement field $$D^{n+1}$$ is calculated from the curl of the magnetic field $$H^{n+\frac{1}{2}}$$.
+
 ### Two-Photon Absorption (TPA)
 
 TPA depends on the electric field magnitude, frequency of the light, and the TPA-coefficient $$\beta$$, which is a function of frequency.
 
 $$P_{TPA} = \frac{n_{0}^{2}c^{2}e_{0}^{2}\beta}{2iw}E^{3}$$
+
+### Free-Carrier Generation
+
+The free carrier density in each cell is updated each timestep according to the following equation:
+
+$$G_{TPA} = \frac{\beta c^{2} n_{0}^{2} e_{0}^{2} E^{4}}{3hw}$$
+
+### Free-Carrier Absorption (FCA)
+
+Some of the light is absorbed by the free carriers generated during the laser pulse. FCA is modeled according to the following equation:
+
+$$P_{FCA} = -\frac{n_{0} e_{0} c \sigma N}{iw} E$$
+
+### Free-Carrier Refraction (FCR)
+
+$$P_{FCR} = 2 n_{0} e_{0} \triangle n E$$
