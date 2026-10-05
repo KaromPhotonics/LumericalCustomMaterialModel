@@ -55,4 +55,14 @@ $$P_{FCA} = -\frac{n_{0} e_{0} c \sigma N}{iw} E$$
 
 ### Free-Carrier Refraction (FCR)
 
+The existence of free carriers perturbs the refractive index in the laser pulse, thus shaping the shape of the pulse in real time. FCR is modeled according to the following equation:
+
 $$P_{FCR} = 2 n_{0} e_{0} \triangle n E$$
+
+### Kerr Effect
+
+The Kerr effect is a change in refractive index in response to the local electric field strength. For femtosecond laser pulses, the Kerr effect becomes important and needs to be considered. The Kerr effect is modeled according to the following equation:
+
+$$P_{Kerr} = \frac{4}{3} e_{0} n_{0}^{2} n_{2} E^{3}$$
+
+where $$n_{2}$$ is the Kerr coefficient.
