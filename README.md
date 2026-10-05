@@ -21,8 +21,5 @@ This custom material and simulation framework is designed to produce a 3D carrie
 
 ## Framework (Basics)
 
-At every timestep, for every mesh cell, Lumerical solves the equation:
-
-'''math
-U^{n}E^{n}+\frac{P^{n}}{e_{0}} = V^{n}
-'''math
+At every timestep, for every mesh cell, Lumerical solves the equation:\
+$$U^{n}E^{n}+\frac{P^{n}}{e_{0}} = V^{n}$$
