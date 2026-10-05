@@ -2,7 +2,7 @@
 
 A custom material model for Ansys Lumerical FDTD designed to accurately model femtosecond pulsed laser free carrier densities.
 
-This model includes:
+This model includes the following physics:
 - Single-photon absorption (SPA)
 - Two-photon absorption (TPA)
 - Free carrier absorption (FCA)
@@ -21,5 +21,16 @@ This custom material and simulation framework is designed to produce a 3D carrie
 
 ## Framework (Basics)
 
-At every timestep, for every mesh cell, Lumerical solves the equation:\
+At every timestep n, for every mesh cell, Lumerical solves the equation:\
 $$U^{n}E^{n}+\frac{P^{n}}{e_{0}} = V^{n}$$
+where E is the electric field, U and V are values provided by Lumerical, and P is the polarization that this custom model adds. Every physical model is wrapped into P.
+
+## Full Derivation
+
+This section will go through the equations governing each physical model, how they combine into an expression for P, how the equation for electric field is time discretized, and how Newton's method is used to analytically determine a final solution.
+
+### Two-Photon Absorption (TPA)
+
+TPA depends on the electric field magnitude, frequency of the light, and the TPA-coefficient $$\beta$$, which is a function of frequency.
+
+$$P_{TPA} = \frac{n_{0}^{2}c^{2}e_{0}^{2}\beta}{2iw}E^{3}$$
