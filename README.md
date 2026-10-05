@@ -19,6 +19,12 @@ Historically, SEEs have been studied at particle accelerators capable of acceler
 
 This custom material and simulation framework is designed to produce a 3D carrier density consistent with femtosecond pulsed lasers. This 3D carrier density can then be exported into standard electrical simulators (Sentaurus TCAD is the primary electrical simulator used in this framework) to determine a device's response to a specific carrier density, focal point, or radial distribution.
 
+## How to Implement
+
+There are two ways to obtain the custom material: downloading the .dll file directly or building it using a program such as Visual Studio. Once you obtain the .dll file, it needs to be moved into Lumerical's material database (Lumerical\bin\plugins\materials). This will require administrator permission. Once there, you can create a new material in Lumerical and select "Custom Material Model Example". Si parameters for a 1260 nm pulsed laser are defined by default.
+
+To simulate the femtosecond pulsed laser, a Gaussian source should be defined with 
+
 ## Framework (Basics)
 
 At every timestep n, for every mesh cell, Lumerical solves the equation:
@@ -61,8 +67,11 @@ $$P_{FCR} = 2 n_{0} e_{0} \triangle n(N) E$$
 
 where $$\triangle n(N)$$ is the change in refractive index as a function of the free carrier density N. There exist two models which convert carrier density to changes in refractive index: Soref-Bennet and Drude.
 
-- The Soref-Bennett model is only valid for Si. It is an empirical model that is fit to experimental data. It is a function of wavelength and has coefficients that are functions of wavelength. A list of coefficients can be found at [#]
-- The Drude model is valid for all materials and is a function of wavelength and carrier effective mass. It is modeled according to the following equation:
+- The Soref-Bennett model (fcr_model = 1) is only valid for Si. It is an empirical model that is fit to experimental data. It is a function of wavelength and has coefficients that are functions of wavelength. A list of coefficients can be found at [#]. For a wavelength of 1300 nm (closest wavelength to 1260 nm with coefficients), it is modeled according to the following equation:
+
+$$\triangle n = -2.98E-22 \triangle N_{e}^{1.016} - 1.25E-18 \triangle N_{h}^{0.835}$$
+
+- The Drude model (fcr_model = 2) is valid for all materials and is a function of wavelength and carrier effective mass. It is modeled according to the following equation:
 
 $$\triangle n = -\frac{e^{2}\lambda^{2}}{8 \pi^{2} c^{2} e_{0} n_{0}} (\frac{N_{e}}{m_{e}^{@} m_{0}} + \frac{N_{h}}{m_{h}^{@} m_{0}})$$
 
